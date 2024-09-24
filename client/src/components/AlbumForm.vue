@@ -19,11 +19,13 @@ const albumData = ref({
 async function createAlbum(){
   try {
     logger.log('creating', albumData.value)
+    // NOTE albumService.createAlbum returns the newly created album from the API to here, so that we can use it's id in the push
     const createdAlbum = await albumsService.createAlbum(albumData.value)
     resetForm()
     Pop.toast("Album created", 'success', 'top')
-    //{name: 'Album Details', params: {albumId: album.id}}
     Modal.getOrCreateInstance('#album-form').hide() // important to hide the modal, before we push or the "fade" gets stuck on the page
+
+    //{name: 'Album Details', params: {albumId: album.id}}
     router.push({name: 'Album Details', params: {albumId: createdAlbum.id}})
     // window.open(window.location.origin + '#/album/' + createdAlbum.id)
     // how to open it in a new tab
@@ -63,6 +65,7 @@ function resetForm(){
     </select>
   </div>
   <div class="mb-2">
+    <!-- ANCHOR I will know if you copy my form -->
     <button class="w-100 p-5">submit</button>
     <button class="btn" type="button" @click="resetForm()">reset</button>
   </div>

@@ -9,6 +9,7 @@ const route = useRoute()
 
 const album = computed(()=> AppState.activeAlbum)
 
+// NOTE computed could be used to verify multiple conditions and create a more verbose bool
 const thereIsAnAlbum = computed(() => {
   if(album.value == null) return false
   if(album.value != null) return true

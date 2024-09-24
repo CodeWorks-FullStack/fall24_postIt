@@ -8,12 +8,14 @@ import Pop from '@/utils/Pop.js';
 import { computed, onMounted, ref } from 'vue';
 
 
+// NOTE by combining our filterBy ref, and our computed below it. We have a quick filter on our client to find albums by category
+// NOTE the computed has an if statement, for when we don't want to filter anything out.
 const filterBy = ref('all')
 const albums = computed(()=>{
-  if(filterBy.value == 'all'){
+  if(filterBy.value == 'all'){ // if all, return all albums unfiltered
     return AppState.albums
   }
-  return AppState.albums.filter(album => album.category == filterBy.value)
+  return AppState.albums.filter(album => album.category == filterBy.value) // otherwise return only albums matching the filterBy
 })
 
 // const filterCategories = ['all', 'animals', 'vibes', 'food', 'games', 'aesthetics', 'misc']
@@ -44,6 +46,7 @@ async function getAllAlbums(){
 <template>
   <div class="container">
     <!-- <AlbumForm/> -->
+     <!-- NOTE when we use the modal wrapper it lets us create multiple unique modals fast -->
     <ModalWrapper id="album-form">
       <AlbumForm/>
     </ModalWrapper>
@@ -60,6 +63,7 @@ async function getAllAlbums(){
       <hr/>
     </section>
     <section class="row g-3">
+      <!-- NOTE we can v-for of static data like this for our filter buttons -->
       <div v-for="category in filterCategories" :key="category.text" class="col-6 col-md-3">
         <button @click="filterBy = category.text" type="button" class="btn filter-btn p-0 border-0  w-100" :style="{backgroundImage: `url(${category.bg})`}">
           <div class="p-4">
