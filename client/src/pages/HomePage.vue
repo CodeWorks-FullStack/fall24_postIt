@@ -1,6 +1,8 @@
 <script setup>
 import { AppState } from '@/AppState.js';
 import AlbumCard from '@/components/AlbumCard.vue';
+import AlbumForm from '@/components/AlbumForm.vue';
+import ModalWrapper from '@/components/ModalWrapper.vue';
 import { albumsService } from '@/services/AlbumsService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, onMounted, ref } from 'vue';
@@ -41,6 +43,16 @@ async function getAllAlbums(){
 
 <template>
   <div class="container">
+    <!-- <AlbumForm/> -->
+    <ModalWrapper id="album-form">
+      <AlbumForm/>
+    </ModalWrapper>
+
+    <ModalWrapper id="howdy">
+      🤠 Howdy yall
+    </ModalWrapper>
+    <button data-bs-target="#howdy" data-bs-toggle="modal">🐄</button>
+
     <!-- SECTION filter buttons -->
     <section class="row">
       <p>Find your interest
@@ -53,6 +65,11 @@ async function getAllAlbums(){
           <div class="p-4">
             {{ category.text }}
           </div>
+        </button>
+      </div>
+      <div class="col-6 col-md-3">
+        <button data-bs-toggle="modal" data-bs-target="#album-form" class="btn filter-btn bg-info p-0 border-0  w-100">
+          <div class="p-4"> Create <i class="mdi mdi-plus"></i></div>
         </button>
       </div>
     </section>

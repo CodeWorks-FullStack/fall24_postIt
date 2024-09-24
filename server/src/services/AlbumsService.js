@@ -13,7 +13,7 @@ class AlbumsService {
   }
 
   async getAllAlbums() { // -----------------{ archived: false } as the filter to keep archived albums out
-    const albums = await dbContext.Albums.find().populate('creator')
+    const albums = await dbContext.Albums.find().sort('-createdAt').populate('creator')
     return albums
   }
   async getAlbumById(albumId) {
