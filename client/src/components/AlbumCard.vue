@@ -7,16 +7,18 @@ defineProps({album: {type: Album, required: true}})
 
 
 <template>
-<div class="card">
-  <img class="card-img-top cover-img" :src="album.coverImg" alt="">
-  <div class="card-body">
-    <p class="fw-bold">{{ album.title }}</p>
-    <div class="d-flex align-items-center">
-      <img class="album-creator me-2" :src="album.creator.picture" alt="">
-      <span>{{ album.creator.name }}</span>
+<RouterLink :to="{name: 'Album Details', params: {albumId: album.id}}">
+  <div class="card selectable text-info">
+    <img class="card-img-top cover-img" :src="album.coverImg" alt="">
+    <div class="card-body text-light">
+      <p class="fw-bold">{{ album.title }}</p>
+      <div class="d-flex align-items-center">
+        <img class="album-creator me-2" :src="album.creator.picture" alt="">
+        <span>{{ album.creator.name }}</span>
+      </div>
     </div>
   </div>
-</div>
+</RouterLink>
 </template>
 
 

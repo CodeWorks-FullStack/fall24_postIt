@@ -11,6 +11,9 @@ export const AppState = reactive({
 
 
   /** @type {Album[]} */
-  albums: []
+  albums: [],
+
+  /** @type {Album} */
+  activeAlbum: null
 })
 

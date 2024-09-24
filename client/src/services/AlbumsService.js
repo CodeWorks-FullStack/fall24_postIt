@@ -6,6 +6,11 @@ import { AppState } from "@/AppState.js"
 
 
 class AlbumsService {
+  async getAlbumById(albumId) {
+    const response = await api.get(`api/albums/${albumId}`)
+    logger.log('👆📸📡', response.data)
+    AppState.activeAlbum = new Album(response.data)
+  }
   async getAllAlbums() {
     const response = await api.get('api/albums')
     logger.log('📸📡', response.data)

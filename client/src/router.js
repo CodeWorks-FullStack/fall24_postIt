@@ -17,6 +17,11 @@ const routes = [
     component: loadPage('AboutPage')
   },
   {
+    path: '/album/:albumId',
+    name: 'Album Details',
+    component: loadPage("AlbumDetailsPage")
+  },
+  {
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
