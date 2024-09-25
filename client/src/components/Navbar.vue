@@ -18,10 +18,12 @@ function toggleTheme() {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="/img/cw-logo.png" height="45" />
+  <nav class="navbar navbar-expand-sm navbar-dark px-3">
+    <router-link class="navbar-brand d-flex align-items-baseline" :to="{ name: 'Home' }">
+      <div class="d-flex flex-column align-items-baseline">
+        <div class="fw-bold fs-4 p-0">
+          <i class="mdi mdi-film"></i> Post it
+        </div>
       </div>
     </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"

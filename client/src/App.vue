@@ -11,8 +11,8 @@ import { AppState } from './AppState.js';
   <main>
     <router-view />
   </main>
-  <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+  <footer class=" text-light">
+    Made with Pugs by Pugs
   </footer>
 </template>
 
