@@ -12,7 +12,7 @@ defineProps({album: {type: Album, required: true}})
     <img class="card-img-top cover-img" :src="album.coverImg" alt="">
     <div class="card-body text-light">
       <p class="fw-bold">{{ album.title }}</p>
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" v-if="album.creator">
         <img class="album-creator me-2" :src="album.creator.picture" alt="">
         <span>{{ album.creator.name }}</span>
       </div>

@@ -4,8 +4,9 @@ import ModalWrapper from '@/components/ModalWrapper.vue';
 import PictureForm from '@/components/PictureForm.vue';
 import { albumsService } from '@/services/AlbumsService.js';
 import { picturesService } from '@/services/PicturesService.js';
+import { watchersService } from '@/services/WatchersService.js';
 import Pop from '@/utils/Pop.js';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
@@ -14,11 +15,27 @@ const album = computed(()=> AppState.activeAlbum)
 
 const pictures = computed(()=> AppState.albumPictures)
 
+const watcherProfiles = computed(() => AppState.albumWatcherProfiles)
+
 const canAddPicture = computed(()=> {
 //  if(AppState.activeAlbum == null) return false
  if(AppState.activeAlbum?.archived== true) return false
  if(AppState.identity == null) return false
  return true
+})
+
+const isWatchingAlbum = computed(()=>{
+if(AppState.identity == null) return false
+const youInWatchers = AppState.albumWatcherProfiles.find(watcher=> watcher.accountId == AppState.account?.id)
+if(!youInWatchers) return false
+  return true
+})
+
+const canCreateWatch = computed(()=>{
+  if(AppState.identity == null) return false
+  if(isWatchingAlbum.value) return false
+  if(AppState.activeAlbum?.archived == true) return false
+  return true
 })
 
 // NOTE computed could be used to verify multiple conditions and create a more verbose bool
@@ -31,6 +48,7 @@ const thereIsAnAlbum = computed(() => {
 onMounted(()=>{
   getAlbumById()
   getAlbumPictures()
+  getAlbumWatchers()
 })
 
 async function getAlbumById(){
@@ -44,6 +62,26 @@ async function getAlbumById(){
 async function getAlbumPictures(){
   try {
     await picturesService.getAlbumPictures(route.params.albumId)
+  } catch (error) {
+    Pop.error(error)
+  }
+}
+
+async function getAlbumWatchers(){
+  try {
+await watchersService.getAlbumWatchers(route.params.albumId)
+  } catch (error) {
+    Pop.error(error)
+  }
+}
+
+async function createWatcher(){
+  try {
+    // NOTE creating the post payload. So our data has KEY:VALUE pairs
+    const watcherData = {
+      albumId: route.params.albumId
+    }
+    await watchersService.createWatcher(watcherData)
   } catch (error) {
     Pop.error(error)
   }
@@ -76,8 +114,25 @@ async function getAlbumPictures(){
   <section class="row my-3">
     <!-- SECTION album watchers -->
     <div class="col-md-4">
-      <section class="row">
+      <section class="row" v-if="album">
+        <div class="col-12 text-primary" v-if="isWatchingAlbum">You are watching!</div>
+        <div class="col-8 bg-dark-glass p-4 text-center fw-bold">
+          Watchers {{album.watcherCount}}
+        </div>
+        <button :disabled="!canCreateWatch" @click="createWatcher()" class="col-4 btn btn-info">
+          JOIN <i class="mdi mdi-account-plus"></i>
+        </button>
+        <!-- <button v-else class="col-4 btn btn-danger">
+          Watching <i class="mdi mdi-heart"></i>
+        </button> -->
 
+        <div  class="col-12">
+          <section class="row">
+            <div v-for="watcher in watcherProfiles" :key="watcher.id" class="col-4">
+              <img class="watcher-img" :src="watcher.profile.picture" alt="" :title="watcher.profile.name">
+            </div>
+          </section>
+        </div>
       </section>
     </div>
 
@@ -87,7 +142,7 @@ async function getAlbumPictures(){
         <PictureForm/>
        </ModalWrapper>
        <button :disabled="!canAddPicture" data-bs-toggle="modal" data-bs-target="#picture-form" class="btn btn-primary fab">Add Picture <i class="mdi mdi-camera-plus"></i></button>
-      <section class="row">
+      <section class="row g-2">
 
         <div v-for="picture in pictures" :key="picture.id" class="col-3">
           <img class="img-fluid" :src="picture.imgUrl" alt="">
@@ -125,5 +180,12 @@ async function getAlbumPictures(){
   position: fixed;
   bottom: 2em;
   right: 2em;
+}
+
+.watcher-img{
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
 }
 </style>

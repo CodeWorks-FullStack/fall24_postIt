@@ -1,7 +1,11 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 import { AppState } from './AppState.js';
-
+import { onMounted } from 'vue';
+import Pop from './utils/Pop.js';
+onMounted(()=>{
+  Pop.toast("Crypto wallet found", 'success', 'bottom', 750)
+})
 </script>
 
 <template>
