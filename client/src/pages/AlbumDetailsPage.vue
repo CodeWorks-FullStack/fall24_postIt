@@ -1,6 +1,9 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import ModalWrapper from '@/components/ModalWrapper.vue';
+import PictureForm from '@/components/PictureForm.vue';
 import { albumsService } from '@/services/AlbumsService.js';
+import { picturesService } from '@/services/PicturesService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -8,6 +11,15 @@ import { useRoute } from 'vue-router';
 const route = useRoute()
 
 const album = computed(()=> AppState.activeAlbum)
+
+const pictures = computed(()=> AppState.albumPictures)
+
+const canAddPicture = computed(()=> {
+//  if(AppState.activeAlbum == null) return false
+ if(AppState.activeAlbum?.archived== true) return false
+ if(AppState.identity == null) return false
+ return true
+})
 
 // NOTE computed could be used to verify multiple conditions and create a more verbose bool
 const thereIsAnAlbum = computed(() => {
@@ -18,11 +30,20 @@ const thereIsAnAlbum = computed(() => {
 
 onMounted(()=>{
   getAlbumById()
+  getAlbumPictures()
 })
 
 async function getAlbumById(){
   try {
     await albumsService.getAlbumById(route.params.albumId)
+  } catch (error) {
+    Pop.error(error)
+  }
+}
+
+async function getAlbumPictures(){
+  try {
+    await picturesService.getAlbumPictures(route.params.albumId)
   } catch (error) {
     Pop.error(error)
   }
@@ -34,10 +55,10 @@ async function getAlbumById(){
 <template>
 <div class="container">
   <!-- NOTE the v-if is important to make sure the IS an album to render -->
-  <section v-if="album" class="row py-4 album-details justify-content-center align-items-end" :style="{backgroundImage: `url(${album.coverImg})`}">
+  <section v-if="album" class="row py-4 mt-4 album-details justify-content-center align-items-end" :style="{backgroundImage: `url(${album.coverImg})`}">
     <div class="col-10 bg-dark-glass rounded p-3">
       <div class="text-center">
-        <h1>{{ album.title }}</h1>
+        <h1>{{ album.title }} <span v-if="album.archived" class="bg-dark text-danger py-2 px-3 rounded-pill">archived</span></h1>
         <p>{{album.description}}</p>
       </div>
       <div class="d-flex justify-content-between">
@@ -51,6 +72,30 @@ async function getAlbumById(){
         </div>
       </div>
     </div>
+  </section>
+  <section class="row my-3">
+    <!-- SECTION album watchers -->
+    <div class="col-md-4">
+      <section class="row">
+
+      </section>
+    </div>
+
+    <div class="col-md-8">
+      <!-- <PictureForm/> -->
+       <ModalWrapper id="picture-form">
+        <PictureForm/>
+       </ModalWrapper>
+       <button :disabled="!canAddPicture" data-bs-toggle="modal" data-bs-target="#picture-form" class="btn btn-primary fab">Add Picture <i class="mdi mdi-camera-plus"></i></button>
+      <section class="row">
+
+        <div v-for="picture in pictures" :key="picture.id" class="col-3">
+          <img class="img-fluid" :src="picture.imgUrl" alt="">
+        </div>
+
+      </section>
+    </div>
+
   </section>
 </div>
 </template>
@@ -74,5 +119,11 @@ async function getAlbumById(){
 .bg-dark-glass{
   background-color: rgba(0, 0, 0, 0.531);
   backdrop-filter: blur(20px);
+}
+
+.fab{
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
 }
 </style>

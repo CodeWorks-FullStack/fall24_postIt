@@ -11,6 +11,7 @@ export class Album {
     this.coverImg = data.coverImg
     this.category = data.category
     this.creatorId = data.creatorId
+    this.archived = data.archived
     this.creator = new Account(data.creator)
     this.createdAt = new Date(data.createdAt)
     this.updatedAt = new Date(data.updatedAt)
