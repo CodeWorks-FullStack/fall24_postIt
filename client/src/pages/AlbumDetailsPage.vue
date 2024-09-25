@@ -17,11 +17,12 @@ const pictures = computed(()=> AppState.albumPictures)
 
 const watcherProfiles = computed(() => AppState.albumWatcherProfiles)
 
+// NOTE these computed properties are pretty dense but consider them as verbose examples checks for each action you want to take. Each if is a potential condition that would NOT allow you to complete said action.
 const canAddPicture = computed(()=> {
 //  if(AppState.activeAlbum == null) return false
- if(AppState.activeAlbum?.archived== true) return false
- if(AppState.identity == null) return false
- return true
+ if(AppState.activeAlbum?.archived== true) return false // if archived, you Cannot Add Picture
+ if(AppState.identity == null) return false // if 'not logged in', you Cannot Add Picture
+ return true // reaching 'return true' a the end means you meet ALL the above conditions and you canAddPicture
 })
 
 const isWatchingAlbum = computed(()=>{
