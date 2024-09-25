@@ -25,6 +25,7 @@ const canAddPicture = computed(()=> {
  return true // reaching 'return true' a the end means you meet ALL the above conditions and you canAddPicture
 })
 
+// NOTE this checks, are you NOT logged in, are you NOT in the array. If both true then you are logged in, and you are in the array = return true
 const isWatchingAlbum = computed(()=>{
 if(AppState.identity == null) return false
 const youInWatchers = AppState.albumWatcherProfiles.find(watcher=> watcher.accountId == AppState.account?.id)
@@ -32,6 +33,7 @@ if(!youInWatchers) return false
   return true
 })
 
+// NOTE are you NOT logged in, are you already watching, is the album archived?
 const canCreateWatch = computed(()=>{
   if(AppState.identity == null) return false
   if(isWatchingAlbum.value) return false

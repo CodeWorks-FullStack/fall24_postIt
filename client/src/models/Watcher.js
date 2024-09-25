@@ -11,7 +11,10 @@ export class Watcher {
     // this.profile = new Account(data.profile)
   }
 }
+// NOTE we create two different versions of our watcher, that each include a different possibility
+// this way we know which version of the many to many we are looking at
 
+// Sometimes the watcher has the profile populated
 export class WatcherProfile extends Watcher {
   constructor(data) {
     super(data)
@@ -19,6 +22,7 @@ export class WatcherProfile extends Watcher {
   }
 }
 
+// Sometimes the watcher has the album populated
 export class WatcherAlbum extends Watcher {
   constructor(data) {
     super(data)
