@@ -13,11 +13,11 @@ class AlbumsService {
   }
 
   async getAllAlbums() { // -----------------{ archived: false } as the filter to keep archived albums out
-    const albums = await dbContext.Albums.find().sort('-createdAt').populate('creator')
+    const albums = await dbContext.Albums.find().sort('-createdAt').populate('creator').populate('watcherCount')
     return albums
   }
   async getAlbumById(albumId) {
-    const album = await dbContext.Albums.findById(albumId).populate('creator')
+    const album = await dbContext.Albums.findById(albumId).populate('creator').populate('watcherCount')
     if (album == null) throw new Error(`No album with id ${albumId}`)
     // if (album.archived) throw new Error(`No Album with that id`)
     return album

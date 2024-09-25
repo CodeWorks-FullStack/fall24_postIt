@@ -2,6 +2,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { albumsService } from "../services/AlbumsService.js";
 import { picturesService } from "../services/PicturesService.js";
+import { watchersService } from "../services/WatchersService.js";
 
 
 
@@ -12,6 +13,7 @@ export class AlbumsController extends BaseController {
       .get('', this.getAllAlbums)
       .get('/:thankYouLevania', this.getAlbumById)
       .get('/:albumId/pictures', this.getPicturesInAlbum)
+      .get('/:albumId/watchers', this.getWatchersByAlbum)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createAlbum)
       .delete('/:albumId', this.archiveAlbum)
@@ -65,6 +67,16 @@ export class AlbumsController extends BaseController {
       const albumId = request.params.albumId
       const pictures = await picturesService.getPicturesInAlbum(albumId)
       response.send(pictures)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getWatchersByAlbum(request, response, next) {
+    try {
+      const albumId = request.params.albumId
+      const watchers = await watchersService.getWatchersByAlbum(albumId)
+      response.send(watchers)
     } catch (error) {
       next(error)
     }

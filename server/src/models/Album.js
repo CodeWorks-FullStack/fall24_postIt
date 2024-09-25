@@ -18,3 +18,11 @@ AlbumSchema.virtual('creator', {
   foreignField: '_id',
   justOne: true
 })
+
+// NOTE this works in a similar way, but is now pointing the other way than your traditional virtual
+AlbumSchema.virtual('watcherCount', {
+  localField: '_id',
+  ref: 'Watcher',
+  foreignField: 'albumId',
+  count: true
+})
