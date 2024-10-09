@@ -1,7 +1,6 @@
-version: '3'
 services:
   app:
-    image: your-dockerhub-username/post-it:latest
+    image: codeworkscontainers/post-it:latest
     restart: unless-stopped
     env_file:
       - post-it-env
