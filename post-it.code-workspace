@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "path": ".github",
+      "name": "🦧"
+    },
+    {
       "name": "client",
       "path": "client"
     },
@@ -8,5 +12,27 @@
       "name": "server",
       "path": "server"
     }
-  ]
+  ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#d9c360",
+      "activityBar.background": "#d9c360",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#1f816f",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "commandCenter.border": "#15202b99",
+      "sash.hoverBorder": "#d9c360",
+      "statusBar.background": "#cfb437",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.hoverBackground": "#aa9329",
+      "statusBarItem.remoteBackground": "#cfb437",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeBackground": "#cfb437",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveBackground": "#cfb43799",
+      "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#cfb437"
+  }
 }
