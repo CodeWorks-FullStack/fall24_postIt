@@ -9,8 +9,8 @@ class PicturesService {
   async createPicture(pictureData) {
     const response = await api.post('api/pictures', pictureData)
     logger.log('✨🖼️📡', response.data)
-    const createdPicture = new Picture(response.data)
-    AppState.albumPictures.push(createdPicture)
+    // const createdPicture = new Picture(response.data)
+    // AppState.albumPictures.push(createdPicture)
   }
 
   async getAlbumPictures(albumId) {
