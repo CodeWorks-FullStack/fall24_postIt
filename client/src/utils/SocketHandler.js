@@ -33,7 +33,10 @@ function registerGlobalSocketMessages(socket) {
 function runPlayback() {
   logger.groupCollapsed('⚡[SOCKET_AUTHENTICATED]')
   authenticated = true
-  if (!queue.length) { return }
+  if (!queue.length) {
+    logger.groupEnd()
+    return
+  }
   const playback = [...queue]
   queue = []
   playback.forEach(e => {
@@ -61,10 +64,9 @@ export class SocketHandler {
 
   on(event, fn) {
     const ctx = this
-    this.socket?.on(event, () => {
+    this.socket?.on(event, (...args) => {
       try {
-        // @ts-ignore
-        fn.call(ctx, ...arguments)
+        fn.call(ctx, ...args)
       } catch (error) {
         logger.warn('🩻[FATAL EVENT]', event)
         logger.error('💀[FATAL ERROR IN HANDLER METHOD]', error)
