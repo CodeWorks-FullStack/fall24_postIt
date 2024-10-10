@@ -22,6 +22,12 @@ export class PicturesController extends BaseController {
       response.send(picture)
 
       socketProvider.messageRoom(picture.albumId.toString(), 'CREATED_PICTURE', picture)
+      // @ts-ignore
+      if (userInfo.id == picture.album.creatorId.toString()) {
+        return
+      }
+      // @ts-ignore
+      socketProvider.messageUser(picture.album.creatorId.toString(), 'CREATED_PICTURE_FOR_YOUR_ALBUM', picture)
     } catch (error) {
       next(error)
     }

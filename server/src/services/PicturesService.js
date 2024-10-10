@@ -16,7 +16,7 @@ class PicturesService {
     if (album.archived == true) throw new Error("Album has been archived")
 
     const picture = await dbContext.Pictures.create(pictureData)
-    await picture.populate('creator')
+    await picture.populate('creator album')
     return picture
   }
 
