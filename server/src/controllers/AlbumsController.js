@@ -3,6 +3,7 @@ import BaseController from "../utils/BaseController.js";
 import { albumsService } from "../services/AlbumsService.js";
 import { picturesService } from "../services/PicturesService.js";
 import { watchersService } from "../services/WatchersService.js";
+import { socketProvider } from "../SocketProvider.js";
 
 
 
@@ -27,6 +28,9 @@ export class AlbumsController extends BaseController {
       // albumData.banana = 'sandwich'
       const album = await albumsService.createAlbum(albumData)
       response.send(album)
+
+
+      socketProvider.messageAll('CREATED_ALBUM')
     } catch (error) {
       next(error)
     }
