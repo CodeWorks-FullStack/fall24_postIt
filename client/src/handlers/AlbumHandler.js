@@ -1,3 +1,5 @@
+import { AppState } from "@/AppState.js";
+import { Album } from "@/models/Album.js";
 import { logger } from "@/utils/Logger.js";
 import Pop from "@/utils/Pop.js";
 import { SocketHandler } from "@/utils/SocketHandler.js";
@@ -9,9 +11,10 @@ class AlbumHandler extends SocketHandler {
       .on('CREATED_ALBUM', this.onCreatedAlbum)
   }
 
-  onCreatedAlbum() {
-    logger.log('Someone created an album!')
-    Pop.toast('Someone created an album!')
+  onCreatedAlbum(payload) {
+    const newAlbum = new Album(payload)
+    Pop.toast(`${newAlbum.creator.name} created an album!`)
+    AppState.albums.unshift(newAlbum)
   }
 }
 

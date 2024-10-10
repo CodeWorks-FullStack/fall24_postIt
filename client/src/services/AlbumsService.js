@@ -9,9 +9,9 @@ class AlbumsService {
   async createAlbum(albumData) {
     const response = await api.post('api/albums', albumData)
     logger.log('✨📸📡', response.data)
-    const createdAlbum = new Album(response.data)
-    AppState.albums.unshift(createdAlbum) // adds to the beginning of the array. HIGHLY dependant on how your API orders content you might want .push instead
-    return createdAlbum
+    // const createdAlbum = new Album(response.data)
+    // AppState.albums.unshift(createdAlbum) // adds to the beginning of the array. HIGHLY dependant on how your API orders content you might want .push instead
+    // return createdAlbum
   }
   async getAlbumById(albumId) {
     const response = await api.get(`api/albums/${albumId}`)
