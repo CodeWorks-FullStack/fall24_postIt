@@ -2,11 +2,16 @@ import { logger } from "@/utils/Logger.js"
 import { api } from "./AxiosService.js"
 import { AppState } from "@/AppState.js"
 import { Picture } from "@/models/Picture.js"
+import { imageUploadService } from "./imageUploadService.js"
 
 
 
 class PicturesService {
   async createPicture(pictureData) {
+
+    const url = await imageUploadService.uploadImage(pictureData.file)
+    pictureData.imgUrl = url
+
     const response = await api.post('api/pictures', pictureData)
     logger.log('✨🖼️📡', response.data)
     // const createdPicture = new Picture(response.data)
